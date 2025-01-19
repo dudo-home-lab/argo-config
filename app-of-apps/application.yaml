@@ -1,0 +1,24 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: root
+  labels:
+    argocd.argoproj.io/type: AoA
+  namespace: argocd
+spec:
+  project: default
+  sources:
+    - repoURL: https://github.com/dudo-home-lab/argo-config.git
+      targetRevision: HEAD
+      path: app-of-apps/addons
+    - repoURL: https://github.com/dudo-home-lab/argo-config.git
+      targetRevision: HEAD
+      path: app-of-apps/apps
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

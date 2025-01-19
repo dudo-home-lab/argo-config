@@ -1,0 +1,129 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: apps-auto-discovery-pull-request
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+    - matrix:
+        generators:
+          - matrix:
+              generators:
+                - scmProvider:
+                    github:
+                      organization: dudo-home-lab
+                      tokenRef:
+                        secretName: github-token
+                        key: token
+                    filters:
+                      - repositoryMatch: '.+-deployment$'
+                        pathsExist:
+                          - overlays/preview/kustomization.yaml
+                - pullRequest:
+                    github:
+                      owner: '{{ .organization }}'
+                      repo: '{{ regexReplaceAll "-deployment$" .repository "" }}'
+                      tokenRef:
+                        secretName: github-token
+                        key: token
+                      labels:
+                        - preview
+                    requeueAfterSeconds: 1800 # TODO: Configure webhook to trigger this
+          - clusters:
+              selector:
+                matchExpressions:
+                  - key: kubernetes.io/environment
+                    operator: In
+                    values:
+                      - sandbox
+                      - local # TODO: Remove
+
+  template:
+    metadata:
+      name: '{{ regexReplaceAll "-deployment$" .repository "" }}-{{ .name }}-pr{{ .number }}'
+      labels:
+        argocd.argoproj.io/type: directory
+      annotations:
+        notifications.argoproj.io/subscribe.sync-operation-change.github: ""
+        notifications.argoproj.io/subscribe.on-deleted.github: ""
+        github.com/owner: '{{ .organization }}'
+        github.com/repo: '{{ regexReplaceAll "-deployment$" .repository "" }}'
+        github.com/environment: preview
+        github.com/pr: '{{ .number }}'
+        github.com/target-branch: '{{ .target_branch }}'
+        github.com/target-branch-slug: '{{ .target_branch_slug }}'
+        github.com/branch: '{{ .branch }}'
+        github.com/branch-slug: '{{ .branch_slug }}'
+        github.com/ref: '{{ .branch_slug }}' # TODO: Use '{{ .pr_branch }}' once https://github.com/argoproj/argo-cd/pull/21110 is available
+        github.com/author: '{{ .author }}'
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io
+    spec:
+      project: apps
+      source:
+        repoURL: 'https://github.com/{{ .organization }}/{{ .repository }}'
+        targetRevision: HEAD
+        path: 'overlays/preview'
+        kustomize:
+          nameSuffix: '-pr{{ .number }}'
+          images:
+            - 'ghcr.io/{{ .organization }}/{{ regexReplaceAll "-deployment$" .repository "" }}:{{ .head_sha }}'
+          patches:
+            - target:
+                # kind: We can't use kind here because the target may be an HTTPRoute or a GRPCRoute
+                name: '{{ regexReplaceAll "-deployment$" .repository "" }}-route'
+              patch: |-
+                - op: add
+                  path: /spec/rules/0/matches/0/headers
+                  value: []
+                - op: add
+                  path: /spec/rules/0/matches/0/headers/-
+                  value:
+                    name: baggage
+                    type: RegularExpression
+                    value: '.*feature={{ .branch_slug }}.*'
+                - op: replace
+                  path: /spec/rules/0/backendRefs/0/name
+                  value: '{{ regexReplaceAll "-deployment$" .repository "" }}-pr{{ .number }}'
+            - target:
+                kind: Service
+                name: '{{ regexReplaceAll "-deployment$" .repository "" }}'
+              patch: |-
+                - op: replace
+                  path: /spec/selector/app
+                  value: '{{ regexReplaceAll "-deployment$" .repository "" }}-pr{{ .number }}'
+            - target:
+                kind: Deployment
+                name: '{{ regexReplaceAll "-deployment$" .repository "" }}'
+              patch: |-
+                - op: replace
+                  path: /metadata/labels/app
+                  value: '{{ regexReplaceAll "-deployment$" .repository "" }}-pr{{ .number }}'
+                - op: replace
+                  path: /spec/selector/matchLabels/app
+                  value: '{{ regexReplaceAll "-deployment$" .repository "" }}-pr{{ .number }}'
+                - op: replace
+                  path: /spec/template/metadata/labels/app
+                  value: '{{ regexReplaceAll "-deployment$" .repository "" }}-pr{{ .number }}'
+      destination:
+        name: '{{ .name }}'
+        namespace: '{{ regexReplaceAll "-deployment$" .repository "" }}-{{ index .metadata.labels "kubernetes.io/environment" }}'
+      info:
+        - name: Pull Request
+          value: 'https://github.com/{{ .organization }}/{{ regexReplaceAll "-deployment$" .repository "" }}/pull/{{ .number }}'
+        - name: Environment Manifests
+          value: 'https://github.com/{{ .organization }}/{{ .repository }}/tree/{{ .branch }}/overlays/preview'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        managedNamespaceMetadata:
+          labels:
+            istio-injection: enabled
+          annotations: {}
+        syncOptions:
+          - CreateNamespace=true
+          - ServerSideApply=true

@@ -1,0 +1,61 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: addons-auto-discovery-suffix
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+    - matrix:
+        generators:
+          - matrix:
+              generators:
+                - scmProvider:
+                    github:
+                      organization: dudo-home-lab
+                      tokenRef:
+                        secretName: github-token
+                        key: token
+                    filters:
+                      - repositoryMatch: '.+-addon$'
+                        pathsExist:
+                          - base/kustomization.yaml
+                - git:
+                    repoURL: 'https://github.com/{{ .organization }}/{{ .repository }}.git'
+                    revision: HEAD
+                    files:
+                      - path: 'overlays/**/kustomization.yaml'
+          - clusters:
+              selector:
+                matchLabels:
+                  kubernetes.io/environment: '{{ .path.basename }}'
+  template:
+    metadata:
+      name: '{{ .repository }}-{{ .name }}'
+      labels:
+        argocd.argoproj.io/type: directory
+      annotations:
+        github.com/owner: '{{ .organization }}'
+        github.com/repo: '{{ regexReplaceAll "-deployment$" .repository "" }}'
+        github.com/environment: '{{ .path.basename }}'
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io
+    spec:
+      project: addons
+      source:
+        repoURL: 'https://github.com/{{ .organization }}/{{ .repository }}'
+        targetRevision: HEAD
+        path: 'overlays/{{ .path.basename }}'
+      destination:
+        name: '{{ .name }}'
+      info:
+        - name: 'Environment Manifests'
+          value: 'https://github.com/{{ .organization }}/{{ .repository }}/tree/{{ .branch }}/overlays/{{ .path.basename }}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - ServerSideApply=true

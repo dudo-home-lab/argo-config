@@ -1,0 +1,21 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd-addon-kustomize-in-cluster-hub
+  namespace: argocd
+  labels:
+    argocd.argoproj.io/type: kustomize
+spec:
+  project: addons
+  source:
+    repoURL: https://github.com/dudo-home-lab/argo-config
+    targetRevision: HEAD
+    path: argo/overlays/local
+  destination:
+    name: in-cluster-hub
+    namespace: argocd
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true

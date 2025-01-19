@@ -13,6 +13,9 @@ The [argocd](./app-of-apps/addons/vendor/argocd/) directory contains the install
 <https://argo-cd.readthedocs.io/en/latest/getting_started/#1-install-argo-cd>
 
 ```sh
+# Install the CNI to allow pods to communicate with each other
+kubectl create -f ./app-of-apps/addons/vendor/calico/overlays/production
+
 # Install ArgoCD. This same kustomization will be used for ArgoCD to manage itself.
 kubectl apply -k ./app-of-apps/addons/vendor/argocd/overlays/production
 

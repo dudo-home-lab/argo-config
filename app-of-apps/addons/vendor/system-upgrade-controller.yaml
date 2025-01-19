@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: addons-argocd
+  name: addons-system-upgrade-controller
   namespace: argocd
 spec:
   goTemplate: true
@@ -14,9 +14,9 @@ spec:
             kubernetes.io/environment: production
   template:
     metadata:
-      name: 'argocd-addon-kustomize-{{ .name }}'
+      name: 'system-upgrade-controller-addon-chart-{{ .name }}'
       labels:
-        argocd.argoproj.io/type: kustomize
+        argocd.argoproj.io/type: helm
       finalizers:
         - resources-finalizer.argocd.argoproj.io
     spec:
@@ -24,7 +24,7 @@ spec:
       source:
         repoURL: https://github.com/dudo-home-lab/argo-config
         targetRevision: HEAD
-        path: 'app-of-apps/addons/vendor/argocd/overlays/{{ index .metadata.labels "kubernetes.io/environment" }}'
+        path: 'app-of-apps/addons/vendor/system-upgrade-controller/overlays/{{ index .metadata.labels "kubernetes.io/environment" }}'
       destination:
         name: '{{ .name }}'
       syncPolicy:

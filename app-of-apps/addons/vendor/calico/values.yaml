@@ -1,0 +1,8 @@
+# https://docs.tigera.io/calico/latest/reference/installation/api#operator.tigera.io/v1.Installation
+---
+installation:
+  calicoNetwork:
+    bgp: Disabled
+    ipPools:
+    - cidr: 10.0.0.0/16
+      encapsulation: None

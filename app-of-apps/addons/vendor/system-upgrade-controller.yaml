@@ -16,7 +16,7 @@ spec:
     metadata:
       name: 'system-upgrade-controller-addon-chart-{{ .name }}'
       labels:
-        argocd.argoproj.io/type: helm
+        argocd.argoproj.io/type: kustomize
       finalizers:
         - resources-finalizer.argocd.argoproj.io
     spec:

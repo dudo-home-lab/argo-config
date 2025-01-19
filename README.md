@@ -14,7 +14,7 @@ The [argocd](./app-of-apps/addons/vendor/argocd/) directory contains the install
 
 ```sh
 # Install ArgoCD. This same kustomization will be used for ArgoCD to manage itself.
-kubectl apply -k ./app-of-apps/addons/vendor/argocd/overlays/local
+kubectl apply -k ./app-of-apps/addons/vendor/argocd/overlays/production
 
 # Give ArgoCD a root application to manage the rest of the applications via AoA
 kubectl apply -f ./app-of-apps/application.yaml

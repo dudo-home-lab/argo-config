@@ -1,0 +1,11 @@
+# https://docs.tigera.io/calico/latest/reference/installation/api#operator.tigera.io/v1.Installation
+---
+apiVersion: operator.tigera.io/v1
+kind: Installation
+metadata:
+  name: default
+spec:
+  calicoNetwork:
+    ipPools:
+      - cidr: "10.0.0.0/16"
+        encapsulation: None

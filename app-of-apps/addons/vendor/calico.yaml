@@ -8,43 +8,28 @@ spec:
   goTemplate: true
   goTemplateOptions: ["missingkey=error"]
   generators:
-    - clusters: {}
+    - clusters:
+        selector:
+          matchLabels:
+            kubernetes.io/environment: production
   template:
     metadata:
       name: 'calico-addon-chart-{{ .name }}'
       labels:
-        argocd.argoproj.io/type: helm
-      annotations:
-        argocd-image-updater.argoproj.io/chart-name: tigera-operator
-        argocd-image-updater.argoproj.io/chart-repo-url: https://docs.tigera.io/calico/charts
-        argocd-image-updater.argoproj.io/chart-update-strategy: newest-build
+        argocd.argoproj.io/type: kustomize
       finalizers:
         - resources-finalizer.argocd.argoproj.io
     spec:
       project: addons
-      sources:
-        - chart: tigera-operator
-          targetRevision: v3.29.1
-          repoURL: https://docs.tigera.io/calico/charts
-          helm:
-            ignoreMissingValueFiles: true
-            valueFiles:
-              - '$values/app-of-apps/addons/vendor/calico/values.yaml'
-              - '$values/app-of-apps/addons/vendor/calico/{{ index .metadata.labels "kubernetes.io/environment" }}.values.yaml'
-            valuesObject: {}
-        - repoURL: https://github.com/dudo-home-lab/argo-config
-          targetRevision: HEAD
-          ref: values
+      source:
+        repoURL: https://github.com/dudo-home-lab/argo-config
+        targetRevision: HEAD
+        path: 'app-of-apps/addons/vendor/calico/overlays/{{ index .metadata.labels "kubernetes.io/environment" }}'
       destination:
         name: '{{ .name }}'
-        namespace: tigera-operator
       syncPolicy:
         automated:
           prune: true
           selfHeal: true
-        managedNamespaceMetadata:
-          labels: {}
-          annotations: {}
         syncOptions:
-          - CreateNamespace=true
           - ServerSideApply=true

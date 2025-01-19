@@ -36,13 +36,13 @@ data:
               {{- end -}}
 
               {{- if eq (index .app.metadata.annotations "github.com/environment") "preview" -}}
-              "environment_url": "http://{{ index .app.metadata.annotations "github.com/branch-slug" }}.acme-node.localhost/api/v1/hello",
+              "environment_url": "https://{{ index .app.metadata.annotations "github.com/branch-slug" }}.dudo.dev",
               {{- else if eq (index .app.metadata.annotations "github.com/environment") "sandbox" -}}
-              "environment_url": "https://sandbox.acme.com",
+              "environment_url": "https://sandbox.dudo.dev",
               {{- else if eq (index .app.metadata.annotations "github.com/environment") "local" -}}
-              "environment_url": "http://sandbox.acme-node.localhost/api/v1/hello",
+              "environment_url": "http://sandbox.localhost",
               {{- else -}}
-              "environment_url": "https://acme.com",
+              "environment_url": "https://dudo.dev",
               {{- end -}}
 
               {{- if index .app.metadata.annotations "github.com/ref" -}}

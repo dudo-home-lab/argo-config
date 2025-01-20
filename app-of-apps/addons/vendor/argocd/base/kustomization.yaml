@@ -46,3 +46,13 @@ patches:
           ports:
             - protocol: TCP
               port: 8081
+      - op: add
+        path: /spec/egress
+        value:
+          - to:
+              - podSelector:
+                  matchLabels:
+                    app.kubernetes.io/name: argocd-application-controller
+            ports:
+              - protocol: TCP
+                port: 8082

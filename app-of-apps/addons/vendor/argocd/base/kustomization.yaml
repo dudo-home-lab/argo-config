@@ -15,14 +15,12 @@ patches:
   - path: ./config-maps/argocd-image-updater-config.yaml
   - path: ./config-maps/argocd-notifications-cm.yaml
   - target:
+      group: networking.k8s.io
+      version: v1
       kind: NetworkPolicy
       name: argocd-application-controller-network-policy
-    patch: |-
-      - op: add
-        path: /spec/ingress/0/ports/-
-        value:
-          port: 8081
-          protocol: TCP
+      namespace: argocd
+    patch: |
       - op: add
         path: /spec/egress
         value:
@@ -30,6 +28,23 @@ patches:
               - podSelector:
                   matchLabels:
                     app.kubernetes.io/name: argocd-repo-server
-            ports:
-              - protocol: TCP
-                port: 8081
+          ports:
+            - protocol: TCP
+              port: 8081
+  - target:
+      group: networking.k8s.io
+      version: v1
+      kind: NetworkPolicy
+      name: argocd-repo-server-network-policy
+      namespace: argocd
+    patch: |
+      - op: add
+        path: /spec/ingress/-
+        value:
+          from:
+            - podSelector:
+                matchLabels:
+                  app.kubernetes.io/name: argocd-application-controller
+          ports:
+            - protocol: TCP
+              port: 8081

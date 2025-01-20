@@ -43,6 +43,6 @@ patches:
             - podSelector:
                 matchLabels:
                   app.kubernetes.io/name: argocd-application-controller
-              ports:
-                - protocol: TCP
-                  port: 8081
+          ports:
+            - protocol: TCP
+              port: 8081

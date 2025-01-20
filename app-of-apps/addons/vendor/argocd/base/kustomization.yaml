@@ -18,50 +18,11 @@ patches:
       group: networking.k8s.io
       version: v1
       kind: NetworkPolicy
-      name: argocd-application-controller-network-policy
-    patch: |
-      - op: add
-        path: /spec/ingress/0/from/-
-        value:
-          namespaceSelector:
-            matchLabels:
-              kubernetes.io/metadata.name: argocd
-  - target:
-      group: networking.k8s.io
-      version: v1
-      kind: NetworkPolicy
-      name: argocd-applicationset-controller-network-policy
-    patch: |
-      - op: add
-        path: /spec/ingress/0/from/-
-        value:
-          namespaceSelector:
-            matchLabels:
-              kubernetes.io/metadata.name: argocd
-  - target:
-      group: networking.k8s.io
-      version: v1
-      kind: NetworkPolicy
-      name: argocd-redis-network-policy
-    patch: |
-      - op: add
-        path: /spec/ingress/0/from/-
-        value:
-          namespaceSelector:
-            matchLabels:
-              kubernetes.io/metadata.name: argocd
-  - target:
-      group: networking.k8s.io
-      version: v1
-      kind: NetworkPolicy
       name: argocd-repo-server-network-policy
-    patch: |
+    patch: |-
       - op: add
-        path: /spec/ingress/0/from/-
-        value:
-          namespaceSelector:
-            matchLabels:
-              kubernetes.io/metadata.name: argocd
+        path: /spec/policyTypes/-
+        value: Egress
       - op: add
         path: /spec/egress
         value:

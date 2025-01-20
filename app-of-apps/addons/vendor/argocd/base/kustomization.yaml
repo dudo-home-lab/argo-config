@@ -62,3 +62,13 @@ patches:
           namespaceSelector:
             matchLabels:
               kubernetes.io/metadata.name: argocd
+      - op: add
+        path: /spec/egress
+        value:
+          - to:
+              - namespaceSelector:
+                  matchLabels:
+                    kubernetes.io/metadata.name: argocd
+            ports:
+              - port: 8081
+                protocol: TCP

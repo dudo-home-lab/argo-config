@@ -19,40 +19,46 @@ patches:
       version: v1
       kind: NetworkPolicy
       name: argocd-application-controller-network-policy
-    patch: |-
+    patch: |
       - op: add
-        path: /spec/egress
+        path: /spec/ingress/0/from/-
         value:
-          - to:
-              - podSelector:
-                  matchLabels:
-                    app.kubernetes.io/name: argocd-repo-server
-            ports:
-              - protocol: TCP
-                port: 8081
+          namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: argocd
+  - target:
+      group: networking.k8s.io
+      version: v1
+      kind: NetworkPolicy
+      name: argocd-applicationset-controller-network-policy
+    patch: |
+      - op: add
+        path: /spec/ingress/0/from/-
+        value:
+          namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: argocd
+  - target:
+      group: networking.k8s.io
+      version: v1
+      kind: NetworkPolicy
+      name: argocd-redis-network-policy
+    patch: |
+      - op: add
+        path: /spec/ingress/0/from/-
+        value:
+          namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: argocd
   - target:
       group: networking.k8s.io
       version: v1
       kind: NetworkPolicy
       name: argocd-repo-server-network-policy
-    patch: |-
+    patch: |
       - op: add
-        path: /spec/ingress/-
+        path: /spec/ingress/0/from/-
         value:
-          from:
-            - podSelector:
-                matchLabels:
-                  app.kubernetes.io/name: argocd-application-controller
-          ports:
-            - protocol: TCP
-              port: 8081
-      - op: add
-        path: /spec/egress
-        value:
-          - to:
-              - podSelector:
-                  matchLabels:
-                    app.kubernetes.io/name: argocd-application-controller
-            ports:
-              - protocol: TCP
-                port: 8082
+          namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: argocd

@@ -19,7 +19,6 @@ patches:
       version: v1
       kind: NetworkPolicy
       name: argocd-application-controller-network-policy
-      namespace: argocd
     patch: |-
       - op: add
         path: /spec/egress
@@ -36,7 +35,6 @@ patches:
       version: v1
       kind: NetworkPolicy
       name: argocd-repo-server-network-policy
-      namespace: argocd
     patch: |-
       - op: add
         path: /spec/ingress/-

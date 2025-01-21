@@ -24,7 +24,7 @@ spec:
       project: addons
       sources:
         - chart: cloudflare-tunnel-remote
-          targetRevision: 0.1.0
+          targetRevision: 0.1.1
           repoURL: https://dudo-home-lab.github.io/helm-charts
           helm:
             ignoreMissingValueFiles: true

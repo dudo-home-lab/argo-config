@@ -10,3 +10,14 @@ spec:
     ipPools:
       - cidr: 10.0.0.0/16
         encapsulation: VXLANCrossSubnet
+      - allowedUses:
+          - Workload
+          - Tunnel
+        blockSize: 26
+        cidr: 10.0.0.0/16
+        disableBGPExport: false
+        disableNewAllocations: false
+        encapsulation: VXLANCrossSubnet
+        name: default-ipv4-ippool
+        natOutgoing: Enabled
+        nodeSelector: all()

@@ -2,3 +2,5 @@
 ---
 prometheus:
   enabled: false
+crds:
+  enabled: true

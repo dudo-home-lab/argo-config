@@ -11,7 +11,7 @@ spec:
     - clusters:
         selector:
           matchLabels:
-            kubernetes.io/environment: production
+            kubernetes.io/environment: sandbox
   template:
     metadata:
       name: 'argocd-addon-kustomize-{{ .name }}'

@@ -9,6 +9,7 @@ spec:
     bgp: Enabled
     ipPools:
       - cidr: 10.0.0.0/16
+        disableBGPExport: false
         encapsulation: VXLANCrossSubnet
       - allowedUses:
           - Workload

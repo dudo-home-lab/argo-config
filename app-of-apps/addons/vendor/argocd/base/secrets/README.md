@@ -15,7 +15,7 @@ kubectl create -n argocd secret generic repo-creds \
   --from-literal=type=git \
   --from-literal=url=https://github.com/dudo-home-lab \
   --from-literal=username=$GITHUB_ACTOR \
-  --from-literal=password=github_pat_XXX
+  --from-literal=password=$github_pat_XXX
 
 kubectl label -n argocd secret repo-creds "argocd.argoproj.io/secret-type=repo-creds"
 ```
@@ -28,7 +28,7 @@ Argo CD will be polling repositories for pull requests that need preview environ
 
 ```sh
 kubectl create -n argocd secret generic github-token \
-  --from-literal=token="github_pat_XXX"
+  --from-literal=token=$github_pat_XXX
 ```
 
 TODO: Once the cluster is stable and accessible to the internet, we can leverage [webhooks to trigger Application generation](https://argo-cd.readthedocs.io/en/latest/operator-manual/applicationset/Generators-Pull-Request/#webhook-configuration).
@@ -42,7 +42,7 @@ We also need to create a secret to allow Argo CD notifications to call the GitHu
 ```sh
 kubectl delete -n argocd secret argocd-notifications-secret
 kubectl create -n argocd secret generic argocd-notifications-secret \
-  --from-literal=github-token="github_pat_XXX"
+  --from-literal=github-token=$github_pat_XXX
 ```
 
 ### Image Updater
@@ -52,6 +52,6 @@ kubectl create -n argocd secret generic argocd-notifications-secret \
 ```sh
 kubectl create -n argocd secret docker-registry github-registry \
   --docker-username $GITHUB_ACTOR \
-  --docker-password github_pat_XXX \
+  --docker-password $github_pat_XXX \
   --docker-server "https://ghcr.io"
 ```

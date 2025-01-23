@@ -14,7 +14,7 @@ The [argocd](./app-of-apps/addons/vendor/argocd/) directory contains the install
 
 ```sh
 # Install the CNI to allow pods to communicate with each other
-kubectl create -f ./app-of-apps/addons/vendor/calico/overlays/sandbox
+kubectl create -k ./app-of-apps/addons/vendor/calico/overlays/sandbox
 
 # Install ArgoCD. This same kustomization will be used for ArgoCD to manage itself.
 kubectl apply -k ./app-of-apps/addons/vendor/argocd/overlays/sandbox

@@ -19,6 +19,10 @@ These ApplicationSets are designed to automatically discover and deploy applicat
 
   This ApplicationSet is responsible for deploying PR-specific environments. If a pull request is labeled with <https://github.com/dudo-home-lab/argo-config/labels/preview>, a transient environment will be created, and a GitHub Deployment tracked.
 
+- **demo**
+
+  This ApplicationSet is responsible for deploying a set of demo applications from the [gitops-ci-cd](https://github.com/gitops-ci-cd) organization. These applications are used to demonstrate the capabilities of GitHub's workflows for CI and Argo CD.
+
 ## Reference
 
 The following documentation should be reviewed for more information:

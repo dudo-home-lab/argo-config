@@ -14,4 +14,6 @@ patches:
   - path: ./config-maps/argocd-cm.yaml
   - path: ./config-maps/argocd-image-updater-config.yaml
   - path: ./config-maps/argocd-notifications-cm.yaml
+
+patchesStrategicMerge:
   - ./network-policies/argocd.yaml

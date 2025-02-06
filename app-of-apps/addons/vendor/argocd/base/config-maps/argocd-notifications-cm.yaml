@@ -36,13 +36,13 @@ data:
               {{- end -}}
 
               {{- if eq (index .app.metadata.annotations "github.com/environment") "preview" -}}
-              "environment_url": "https://{{ index .app.metadata.annotations "github.com/branch-slug" }}.dudo.dev",
+              "environment_url": "https://{{ index .app.metadata.annotations "github.com/branch-slug" }}.dudo.dev/api/v1/hello",
               {{- else if eq (index .app.metadata.annotations "github.com/environment") "sandbox" -}}
-              "environment_url": "https://sandbox.dudo.dev",
+              "environment_url": "https://sandbox.dudo.dev/api/v1/hello",
               {{- else if eq (index .app.metadata.annotations "github.com/environment") "local" -}}
-              "environment_url": "http://sandbox.localhost",
+              "environment_url": "http://sandbox.localhost/api/v1/hello",
               {{- else -}}
-              "environment_url": "https://dudo.dev",
+              "environment_url": "https://www.dudo.dev",
               {{- end -}}
 
               {{- if index .app.metadata.annotations "github.com/ref" -}}
@@ -52,6 +52,7 @@ data:
                 {{- if (contains (index $.app.metadata.annotations "github.com/repo") .) -}}
                   "ref": "{{ index (splitList ":" .) 1 }}",
                 {{- end -}}
+              {{- end -}}
               {{- end -}}
 
               "environment": "{{ index .app.metadata.annotations "github.com/environment" }}",

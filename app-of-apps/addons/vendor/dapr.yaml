@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: addons-istio
+  name: addons-dapr
   namespace: argocd
 spec:
   goTemplate: true
@@ -12,27 +12,23 @@ spec:
         generators:
           - list:
               elements:
-                - chart: base
-                  namespace: istio-system
-                  version: 1.24.2
-                  valuesDir: istio/base
-                - chart: istiod
-                  namespace: istio-system
-                  version: 1.24.2
-                  valuesDir: istio/istiod
-                - chart: gateway
-                  namespace: istio-ingress
-                  version: 1.24.2
-                  valuesDir: istio/gateway
+                - chart: dapr
+                  namespace: dapr-system
+                  version: 1.14.4
+                  valuesDir: dapr/dapr
+                - chart: dapr-dashboard
+                  namespace: dapr-system
+                  version: 0.15.0
+                  valuesDir: dapr/dashboard
           - clusters: {}
   template:
     metadata:
-      name: 'istio-{{ .chart }}-addon-chart-{{ .name }}'
+      name: 'dapr-{{ .chart }}-addon-chart-{{ .name }}'
       labels:
         argocd.argoproj.io/type: helm
       annotations:
         argocd-image-updater.argoproj.io/chart-name: '{{ .chart }}'
-        argocd-image-updater.argoproj.io/chart-repo-url: https://istio-release.storage.googleapis.com/charts
+        argocd-image-updater.argoproj.io/chart-repo-url: https://dapr.github.io/helm-charts
         argocd-image-updater.argoproj.io/chart-update-strategy: newest-build
       finalizers:
         - resources-finalizer.argocd.argoproj.io
@@ -41,7 +37,7 @@ spec:
       sources:
         - chart: '{{ .chart }}'
           targetRevision: '{{ .version }}'
-          repoURL: https://istio-release.storage.googleapis.com/charts
+          repoURL: https://dapr.github.io/helm-charts
           helm:
             ignoreMissingValueFiles: true
             valueFiles:

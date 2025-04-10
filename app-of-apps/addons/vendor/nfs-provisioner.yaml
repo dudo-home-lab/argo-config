@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: addons-nfs-subdir-external-provisioner
+  name: addons-nfs-provisioner
   namespace: argocd
 spec:
   goTemplate: true
@@ -11,7 +11,7 @@ spec:
     - clusters: {}
   template:
     metadata:
-      name: 'nfs-subdir-external-provisioner-addon-chart-{{ .name }}'
+      name: 'nfs-provisioner-addon-chart-{{ .name }}'
       labels:
         argocd.argoproj.io/type: helm
       annotations:
@@ -29,8 +29,8 @@ spec:
           helm:
             ignoreMissingValueFiles: true
             valueFiles:
-              - '$values/app-of-apps/addons/vendor/nfs-subdir-external-provisioner/values.yaml'
-              - '$values/app-of-apps/addons/vendor/nfs-subdir-external-provisioner/{{ index .metadata.labels "kubernetes.io/environment" }}.values.yaml'
+              - '$values/app-of-apps/addons/vendor/nfs-provisioner/values.yaml'
+              - '$values/app-of-apps/addons/vendor/nfs-provisioner/{{ index .metadata.labels "kubernetes.io/environment" }}.values.yaml'
             valuesObject: {}
         - repoURL: https://github.com/dudo-home-lab/argo-config
           targetRevision: HEAD

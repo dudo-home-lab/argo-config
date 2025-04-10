@@ -3,3 +3,5 @@
 nfs:
   server: 192.168.4.152
   path: /mnt/nvme/nfs-test
+
+releasename: nfs-subdir-external-provisioner

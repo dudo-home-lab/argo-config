@@ -1,5 +1,5 @@
 # https://github.com/kubernetes-sigs/nfs-subdir-external-provisioner/blob/master/charts/nfs-subdir-external-provisioner/values.yaml
 ---
 nfs:
-  server: rk13.localdomain
+  server: rk13
   path: /mnt/nvme/nfs-test

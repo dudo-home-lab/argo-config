@@ -1,7 +1,7 @@
 # https://github.com/dudo-home-lab/helm-charts/blob/main/charts/cloudflare-tunnel-remote/values.yaml
 ---
 image:
-  tag: 2025.2.1
+  tag: 2025.4.0
 tunnel:
   token:
     secretName: tunnel-remote

@@ -2,4 +2,4 @@
 ---
 nfs:
   server: rk13
-  path: /mnt/nvme/nfs-test
+  path: /mnt/raid1/nfs

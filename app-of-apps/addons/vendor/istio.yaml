@@ -14,15 +14,15 @@ spec:
               elements:
                 - chart: base
                   namespace: istio-system
-                  version: 1.24.2
+                  version: 1.26.3
                   valuesDir: istio/base
                 - chart: istiod
                   namespace: istio-system
-                  version: 1.24.2
+                  version: 1.26.3
                   valuesDir: istio/istiod
                 - chart: gateway
                   namespace: istio-ingress
-                  version: 1.24.2
+                  version: 1.26.3
                   valuesDir: istio/gateway
           - clusters: {}
   template:

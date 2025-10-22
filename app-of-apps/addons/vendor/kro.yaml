@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: addons-crossplane
+  name: addons-kro
   namespace: argocd
 spec:
   goTemplate: true
@@ -11,33 +11,33 @@ spec:
     - clusters: {}
   template:
     metadata:
-      name: 'crossplane-addon-chart-{{ .name }}'
+      name: 'kro-addon-chart-{{ .name }}'
       labels:
         argocd.argoproj.io/type: helm
       annotations:
-        argocd-image-updater.argoproj.io/chart-name: crossplane
-        argocd-image-updater.argoproj.io/chart-repo-url: https://charts.crossplane.io/stable
+        argocd-image-updater.argoproj.io/chart-name: kro
+        argocd-image-updater.argoproj.io/chart-repo-url: oci://registry.k8s.io/kro/charts/kro
         argocd-image-updater.argoproj.io/chart-update-strategy: newest-build
       finalizers:
         - resources-finalizer.argocd.argoproj.io
     spec:
       project: addons
       sources:
-        - chart: crossplane
-          targetRevision: 2.0.2
-          repoURL: https://charts.crossplane.io/stable
+        - chart: kro
+          targetRevision: 0.5.0
+          repoURL: oci://registry.k8s.io/kro/charts/kro
           helm:
             ignoreMissingValueFiles: true
             valueFiles:
-              - '$values/app-of-apps/addons/vendor/crossplane/values.yaml'
-              - '$values/app-of-apps/addons/vendor/crossplane/{{ index .metadata.labels "kubernetes.io/environment" }}.values.yaml'
+              - '$values/app-of-apps/addons/vendor/kro/values.yaml'
+              - '$values/app-of-apps/addons/vendor/kro/{{ index .metadata.labels "kubernetes.io/environment" }}.values.yaml'
             valuesObject: {}
         - repoURL: https://github.com/dudo-home-lab/argo-config
           targetRevision: HEAD
           ref: values
       destination:
         name: '{{ .name }}'
-        namespace: crossplane-system
+        namespace: kro
       syncPolicy:
         automated:
           prune: true

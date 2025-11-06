@@ -10,7 +10,7 @@ data:
   resource.customizations.ignoreDifferences.apps_Deployment: |
     jqPathExpressions:
       - '.spec.template.spec.containers[]?.env'
-  resource.customizations.ignoreDifferences.apiextensions.apps_StatefulSet: |
+  resource.customizations.ignoreDifferences.apps_StatefulSet: |
     jqPathExpressions:
       - '.spec.volumeClaimTemplates[]?.apiVersion'
       - '.spec.volumeClaimTemplates[]?.kind'

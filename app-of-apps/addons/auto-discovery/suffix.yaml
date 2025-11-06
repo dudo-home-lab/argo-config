@@ -22,6 +22,8 @@ spec:
                       - repositoryMatch: '.+-addon$'
                         pathsExist:
                           - base/kustomization.yaml
+                        pathsDoNotExist:
+                          - disabledrepo.txt
                 - git:
                     repoURL: 'https://github.com/{{ .organization }}/{{ .repository }}.git'
                     revision: HEAD

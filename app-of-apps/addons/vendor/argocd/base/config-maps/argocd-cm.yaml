@@ -7,15 +7,16 @@ metadata:
   name: argocd-cm
 data:
   kustomize.buildOptions: "--enable-helm"
-  resource.customizations.ignoreDifferences.apiextensions.crossplane.io_CompositeResourceDefinition: |
-    jqPathExpressions:
-      - '.spec.versions[]?.defaultCompositionRef'
-  resource.customizations.ignoreDifferences.admissionregistration.k8s.io_ValidatingWebhookConfiguration: |
-    jqPathExpressions:
-      - '.webhooks[]?.failurePolicy'
   resource.customizations.ignoreDifferences.apps_Deployment: |
     jqPathExpressions:
       - '.spec.template.spec.containers[]?.env'
+  resource.customizations.ignoreDifferences.apiextensions.apps_StatefulSet: |
+    jqPathExpressions:
+      - '.spec.volumeClaimTemplates[]?apiVersion'
+      - '.spec.volumeClaimTemplates[]?kind'
+  resource.customizations.ignoreDifferences.admissionregistration.k8s.io_ValidatingWebhookConfiguration: |
+    jqPathExpressions:
+      - '.webhooks[]?.failurePolicy'
   resource.customizations.ignoreDifferences.apiextensions.k8s.io_CustomResourceDefinition: |
     jqPathExpressions:
       - '.spec.preserveUnknownFields'

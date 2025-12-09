@@ -1,0 +1,35 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: addons-argocd-image-updater
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+    - clusters:
+        selector:
+          matchLabels:
+            kubernetes.io/environment: sandbox
+  template:
+    metadata:
+      name: 'argocd-image-updater-addon-kustomize-{{ .name }}'
+      labels:
+        argocd.argoproj.io/type: kustomize
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io
+    spec:
+      project: addons
+      source:
+        repoURL: https://github.com/dudo-home-lab/argo-config
+        targetRevision: HEAD
+        path: 'app-of-apps/addons/vendor/argocd-image-updater/overlays/{{ index .metadata.labels "kubernetes.io/environment" }}'
+      destination:
+        name: '{{ .name }}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - ServerSideApply=true

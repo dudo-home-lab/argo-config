@@ -11,7 +11,6 @@ resources:
 patches:
   - path: ./config-maps/argocd-cmd-params-cm.yaml
   - path: ./config-maps/argocd-cm.yaml
-  - path: ./config-maps/argocd-image-updater-config.yaml
   - path: ./config-maps/argocd-notifications-cm.yaml
 
 patchesStrategicMerge:

@@ -14,10 +14,6 @@ spec:
       name: 'cloudflare-tunnel-addon-chart-{{ .name }}'
       labels:
         argocd.argoproj.io/type: helm
-      annotations:
-        argocd-image-updater.argoproj.io/chart-name: cloudflare-tunnel-remote
-        argocd-image-updater.argoproj.io/chart-repo-url: https://dudo-home-lab.github.io/helm-charts
-        argocd-image-updater.argoproj.io/chart-update-strategy: newest-build
       finalizers:
         - resources-finalizer.argocd.argoproj.io
     spec:

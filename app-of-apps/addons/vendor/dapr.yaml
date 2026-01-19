@@ -23,13 +23,9 @@ spec:
           - clusters: {}
   template:
     metadata:
-      name: 'dapr-{{ .chart }}-addon-chart-{{ .name }}'
+      name: '{{ .chart }}-addon-chart-{{ .name }}'
       labels:
         argocd.argoproj.io/type: helm
-      annotations:
-        argocd-image-updater.argoproj.io/chart-name: '{{ .chart }}'
-        argocd-image-updater.argoproj.io/chart-repo-url: https://dapr.github.io/helm-charts
-        argocd-image-updater.argoproj.io/chart-update-strategy: newest-build
       finalizers:
         - resources-finalizer.argocd.argoproj.io
     spec:

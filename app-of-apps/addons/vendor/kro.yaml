@@ -14,10 +14,6 @@ spec:
       name: 'kro-addon-chart-{{ .name }}'
       labels:
         argocd.argoproj.io/type: helm
-      annotations:
-        argocd-image-updater.argoproj.io/chart-name: kro
-        argocd-image-updater.argoproj.io/chart-repo-url: oci://registry.k8s.io/kro/charts/kro
-        argocd-image-updater.argoproj.io/chart-update-strategy: newest-build
       finalizers:
         - resources-finalizer.argocd.argoproj.io
     spec:

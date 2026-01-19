@@ -14,10 +14,6 @@ spec:
       name: 'cloudnative-pg-addon-chart-{{ .name }}'
       labels:
         argocd.argoproj.io/type: helm
-      annotations:
-        argocd-image-updater.argoproj.io/chart-name: cloudnative-pg-remote
-        argocd-image-updater.argoproj.io/chart-repo-url: https://cloudnative-pg.github.io/charts
-        argocd-image-updater.argoproj.io/chart-update-strategy: newest-build
       finalizers:
         - resources-finalizer.argocd.argoproj.io
     spec:

@@ -14,10 +14,6 @@ spec:
       name: 'cert-manager-addon-chart-{{ .name }}'
       labels:
         argocd.argoproj.io/type: helm
-      annotations:
-        argocd-image-updater.argoproj.io/chart-name: cert-manager
-        argocd-image-updater.argoproj.io/chart-repo-url: https://charts.jetstack.io
-        argocd-image-updater.argoproj.io/chart-update-strategy: newest-build
       finalizers:
         - resources-finalizer.argocd.argoproj.io
     spec:

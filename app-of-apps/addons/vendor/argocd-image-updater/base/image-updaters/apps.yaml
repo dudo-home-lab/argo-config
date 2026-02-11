@@ -1,0 +1,23 @@
+---
+apiVersion: argocd-image-updater.argoproj.io/v1alpha1
+kind: ImageUpdater
+metadata:
+  name: apps
+spec:
+  namespace: argocd
+  commonUpdateSettings:
+    updateStrategy: digest
+  writeBackConfig:
+    method: git
+    gitConfig:
+      writeBackTarget: "kustomization:../../base"
+      branch: "main:image-updater{{range .Images}}-{{.Name}}-{{.NewTag}}{{end}}"
+  applicationRefs:
+    - namePattern: "homepage-*"
+      images:
+        - alias: "homepage"
+          imageName: "ghcr.io/gethomepage/homepage:latest"
+    - namePattern: "home-assistant-*"
+      images:
+        - alias: "home-assistant"
+          imageName: "ghcr.io/home-assistant/home-assistant:latest"

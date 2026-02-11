@@ -1,0 +1,16 @@
+---
+apiVersion: argocd-image-updater.argoproj.io/v1alpha1
+kind: ImageUpdater
+metadata:
+  name: addons
+spec:
+  namespace: argocd
+  commonUpdateSettings:
+    updateStrategy: semver
+  writeBackConfig:
+    method: git
+    gitConfig:
+      repository: git@github.com:dudo-home-lab/argo-config.git
+      branch: "main:image-updater{{range .Images}}-{{.Name}}-{{.NewTag}}{{end}}"
+  applicationRefs:
+    - namePattern: "*-addon-chart-*"

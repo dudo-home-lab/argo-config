@@ -11,7 +11,7 @@ spec:
     method: git
     gitConfig:
       writeBackTarget: "kustomization:../../base"
-      branch: "main:image-updater{{range .Images}}-{{.Name}}-{{.NewTag}}{{end}}"
+      branch: "main:image-updater{{range .Images}}-{{.Name}}{{end}}"
   applicationRefs:
     - namePattern: "homepage-*"
       images:

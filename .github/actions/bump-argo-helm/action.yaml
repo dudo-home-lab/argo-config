@@ -91,6 +91,10 @@ runs:
         safe_chart="$(echo "$CHART" | tr '/' '-' | tr -cd '[:alnum:]._:-')"
         branch="bump-helm/${safe_chart}"
 
+        # Configure git identity
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+
         git fetch origin "$base" --depth=1
         git checkout -B "$branch" "origin/$base"
 

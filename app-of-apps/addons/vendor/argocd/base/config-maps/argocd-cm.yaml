@@ -17,9 +17,9 @@ data:
       - '.spec.volumeClaimTemplates[]?.kind'
   resource.customizations.ignoreDifferences.gateway.networking.k8s.io_HTTPRoute: |
     jqPathExpressions:
-      - '.spec.rules[]?.backendRefs[]?.group'
-      - '.spec.rules[]?.backendRefs[]?.kind'
-      - '.spec.rules[]?.backendRefs[]?.weight'
+      - '.spec.rules[].backendRefs[]?.group'
+      - '.spec.rules[].backendRefs[]?.kind'
+      - '.spec.rules[].backendRefs[]?.weight'
   resource.customizations.ignoreDifferences.admissionregistration.k8s.io_ValidatingWebhookConfiguration: |
     jqPathExpressions:
       - '.webhooks[]?.failurePolicy'

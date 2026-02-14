@@ -1,0 +1,4 @@
+# https://github.com/headlamp-k8s/headlamp/blob/main/charts/headlamp/values.yaml
+---
+httpRoute:
+  enabled: true

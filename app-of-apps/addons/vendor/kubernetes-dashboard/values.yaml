@@ -1,4 +1,0 @@
-# https://github.com/kubernetes/dashboard/blob/master/charts/kubernetes-dashboard/values.yaml
----
-kong:
-  enabled: false

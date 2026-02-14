@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: addons-kubernetes-dashboard
+  name: addons-headlamp
   namespace: argocd
 spec:
   goTemplate: true
@@ -11,7 +11,7 @@ spec:
     - clusters: {}
   template:
     metadata:
-      name: 'kubernetes-dashboard-addon-chart-{{ .name }}'
+      name: 'headlamp-addon-chart-{{ .name }}'
       labels:
         argocd.argoproj.io/type: helm
       finalizers:
@@ -19,21 +19,21 @@ spec:
     spec:
       project: addons
       sources:
-        - chart: kubernetes-dashboard
-          targetRevision: 7.13.0
-          repoURL: https://kubernetes.github.io/dashboard/
+        - chart: headlamp
+          targetRevision: 0.30.0
+          repoURL: https://headlamp-k8s.github.io/headlamp/
           helm:
             ignoreMissingValueFiles: true
             valueFiles:
-              - '$values/app-of-apps/addons/vendor/kubernetes-dashboard/values.yaml'
-              - '$values/app-of-apps/addons/vendor/kubernetes-dashboard/{{ index .metadata.labels "kubernetes.io/environment" }}.values.yaml'
+              - '$values/app-of-apps/addons/vendor/headlamp/values.yaml'
+              - '$values/app-of-apps/addons/vendor/headlamp/{{ index .metadata.labels "kubernetes.io/environment" }}.values.yaml'
             valuesObject: {}
         - repoURL: https://github.com/dudo-home-lab/argo-config
           targetRevision: HEAD
           ref: values
       destination:
         name: '{{ .name }}'
-        namespace: kubernetes-dashboard
+        namespace: headlamp
       syncPolicy:
         automated:
           prune: true

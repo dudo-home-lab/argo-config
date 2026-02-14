@@ -26,3 +26,5 @@ data:
   resource.customizations.ignoreDifferences.apiextensions.k8s.io_CustomResourceDefinition: |
     jqPathExpressions:
       - '.spec.preserveUnknownFields'
+      - '.metadata.annotations'
+      - '.metadata.labels'

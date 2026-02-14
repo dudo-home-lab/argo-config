@@ -93,7 +93,7 @@ jobs:
           helm version
           crane version
 
-      - name: Bumps chart
+      - name: Bump chart
         uses: ./.github/actions/bump-argo-helm
         with:
           file: ${{ matrix.file }}

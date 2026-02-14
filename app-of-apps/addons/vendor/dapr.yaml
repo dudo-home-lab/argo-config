@@ -20,7 +20,7 @@ spec:
       project: addons
       sources:
         - chart: dapr
-          targetRevision: 1.14.4
+          targetRevision: 1.16.9
           repoURL: https://dapr.github.io/helm-charts
           helm:
             ignoreMissingValueFiles: true

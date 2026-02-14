@@ -7,3 +7,8 @@ httpRoute:
       kind: Gateway
       name: external-http-gateway
       namespace: istio-ingress
+  annotations:
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: User-friendly Kubernetes UI.
+    gethomepage.dev/group: IoT
+    gethomepage.dev/name: Headlamp

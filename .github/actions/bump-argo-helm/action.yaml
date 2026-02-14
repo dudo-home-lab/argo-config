@@ -125,10 +125,7 @@ runs:
 
         - Chart: \`${CHART}\`
         - Repo: \`${REPO}\`
-        - From: \`${CURRENT}\`
-        - To: \`${LATEST}\`
-
-        File: \`${FILE}\`
+        - \`${CURRENT}\` -> \`${LATEST}\`
         EOF
         )
 

@@ -8,22 +8,10 @@ spec:
   goTemplate: true
   goTemplateOptions: ["missingkey=error"]
   generators:
-    - matrix:
-        generators:
-          - list:
-              elements:
-                - chart: dapr
-                  namespace: dapr-system
-                  version: 1.14.4
-                  valuesDir: dapr/dapr
-                - chart: dapr-dashboard
-                  namespace: dapr-system
-                  version: 0.15.0
-                  valuesDir: dapr/dashboard
-          - clusters: {}
+    - clusters: {}
   template:
     metadata:
-      name: '{{ .chart }}-addon-chart-{{ .name }}'
+      name: 'dapr-addon-chart-{{ .name }}'
       labels:
         argocd.argoproj.io/type: helm
       finalizers:
@@ -31,21 +19,30 @@ spec:
     spec:
       project: addons
       sources:
-        - chart: '{{ .chart }}'
-          targetRevision: '{{ .version }}'
+        - chart: dapr
+          targetRevision: 1.14.4
           repoURL: https://dapr.github.io/helm-charts
           helm:
             ignoreMissingValueFiles: true
             valueFiles:
-              - '$values/app-of-apps/addons/vendor/{{ .valuesDir | default .chart }}/values.yaml'
-              - '$values/app-of-apps/addons/vendor/{{ .valuesDir | default .chart }}/{{ index .metadata.labels "kubernetes.io/environment" }}.values.yaml'
+              - '$values/app-of-apps/addons/vendor/dapr/dapr/values.yaml'
+              - '$values/app-of-apps/addons/vendor/dapr/dapr/{{ index .metadata.labels "kubernetes.io/environment" }}.values.yaml'
+            valuesObject: {}
+        - chart: dapr-dashboard
+          targetRevision: 0.15.0
+          repoURL: https://dapr.github.io/helm-charts
+          helm:
+            ignoreMissingValueFiles: true
+            valueFiles:
+              - '$values/app-of-apps/addons/vendor/dapr/dashboard/values.yaml'
+              - '$values/app-of-apps/addons/vendor/dapr/dashboard/{{ index .metadata.labels "kubernetes.io/environment" }}.values.yaml'
             valuesObject: {}
         - repoURL: https://github.com/dudo-home-lab/argo-config
           targetRevision: HEAD
           ref: values
       destination:
         name: '{{ .name }}'
-        namespace: '{{ .namespace }}'
+        namespace: dapr-system
       syncPolicy:
         automated:
           prune: true

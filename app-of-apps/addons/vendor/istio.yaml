@@ -8,26 +8,10 @@ spec:
   goTemplate: true
   goTemplateOptions: ["missingkey=error"]
   generators:
-    - matrix:
-        generators:
-          - list:
-              elements:
-                - chart: base
-                  namespace: istio-system
-                  version: 1.26.3
-                  valuesDir: istio/base
-                - chart: istiod
-                  namespace: istio-system
-                  version: 1.26.3
-                  valuesDir: istio/istiod
-                - chart: gateway
-                  namespace: istio-ingress
-                  version: 1.26.3
-                  valuesDir: istio/gateway
-          - clusters: {}
+    - clusters: {}
   template:
     metadata:
-      name: 'istio-{{ .chart }}-addon-chart-{{ .name }}'
+      name: 'istio-addon-chart-{{ .name }}'
       labels:
         argocd.argoproj.io/type: helm
       finalizers:
@@ -35,21 +19,30 @@ spec:
     spec:
       project: addons
       sources:
-        - chart: '{{ .chart }}'
-          targetRevision: '{{ .version }}'
+        - chart: base
+          targetRevision: 1.26.3
           repoURL: https://istio-release.storage.googleapis.com/charts
           helm:
             ignoreMissingValueFiles: true
             valueFiles:
-              - '$values/app-of-apps/addons/vendor/{{ .valuesDir | default .chart }}/values.yaml'
-              - '$values/app-of-apps/addons/vendor/{{ .valuesDir | default .chart }}/{{ index .metadata.labels "kubernetes.io/environment" }}.values.yaml'
+              - '$values/app-of-apps/addons/vendor/istio/base/values.yaml'
+              - '$values/app-of-apps/addons/vendor/istio/base/{{ index .metadata.labels "kubernetes.io/environment" }}.values.yaml'
+            valuesObject: {}
+        - chart: istiod
+          targetRevision: 1.26.3
+          repoURL: https://istio-release.storage.googleapis.com/charts
+          helm:
+            ignoreMissingValueFiles: true
+            valueFiles:
+              - '$values/app-of-apps/addons/vendor/istio/istiod/values.yaml'
+              - '$values/app-of-apps/addons/vendor/istio/istiod/{{ index .metadata.labels "kubernetes.io/environment" }}.values.yaml'
             valuesObject: {}
         - repoURL: https://github.com/dudo-home-lab/argo-config
           targetRevision: HEAD
           ref: values
       destination:
         name: '{{ .name }}'
-        namespace: '{{ .namespace }}'
+        namespace: istio-system
       syncPolicy:
         automated:
           prune: true

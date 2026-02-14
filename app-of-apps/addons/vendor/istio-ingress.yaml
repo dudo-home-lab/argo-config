@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: addons-kro
+  name: addons-istio-ingress
   namespace: argocd
 spec:
   goTemplate: true
@@ -11,7 +11,7 @@ spec:
     - clusters: {}
   template:
     metadata:
-      name: 'kro-addon-chart-{{ .name }}'
+      name: 'istio-ingress-addon-chart-{{ .name }}'
       labels:
         argocd.argoproj.io/type: helm
       finalizers:
@@ -19,21 +19,21 @@ spec:
     spec:
       project: addons
       sources:
-        - chart: kro
-          targetRevision: 0.8.5
-          repoURL: oci://registry.k8s.io/kro/charts/kro
+        - chart: gateway
+          targetRevision: 1.26.3
+          repoURL: https://istio-release.storage.googleapis.com/charts
           helm:
             ignoreMissingValueFiles: true
             valueFiles:
-              - '$values/app-of-apps/addons/vendor/kro/values.yaml'
-              - '$values/app-of-apps/addons/vendor/kro/{{ index .metadata.labels "kubernetes.io/environment" }}.values.yaml'
+              - '$values/app-of-apps/addons/vendor/istio/gateway/values.yaml'
+              - '$values/app-of-apps/addons/vendor/istio/gateway/{{ index .metadata.labels "kubernetes.io/environment" }}.values.yaml'
             valuesObject: {}
         - repoURL: https://github.com/dudo-home-lab/argo-config
           targetRevision: HEAD
           ref: values
       destination:
         name: '{{ .name }}'
-        namespace: kro-system
+        namespace: istio-ingress
       syncPolicy:
         automated:
           prune: true

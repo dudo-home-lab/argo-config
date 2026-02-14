@@ -17,14 +17,14 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - name: Build matrix from application-sets/**/*-addon.yaml
+      - name: Build matrix from applicable application sets
         id: mk
         shell: bash
         run: |
           set -euo pipefail
           shopt -s globstar nullglob
 
-          files=(application-sets/**/*-addon.yaml)
+          files=(**/*.yaml **/*.yml)
           if [[ ${#files[@]} -eq 0 ]]; then
             echo 'matrix={"include":[]}' >> "$GITHUB_OUTPUT"
             exit 0

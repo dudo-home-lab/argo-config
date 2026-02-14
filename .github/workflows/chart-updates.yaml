@@ -50,7 +50,7 @@ jobs:
                 --arg chart "$chart" \
                 --arg repoURL "$repoURL" \
                 --arg current "$current" \
-                '. + [{file:$file, chart:$chart, repoURL:$repoURL, current:$current}]' \
+                '. + [{name:$chart, file:$file, chart:$chart, repoURL:$repoURL, current:$current}]' \
                 <<<"$include")"
             done
           done

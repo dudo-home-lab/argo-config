@@ -117,7 +117,7 @@ runs:
 
         git add "$FILE"
         git commit -m "chore(helm): bump ${CHART} ${CURRENT} -> ${LATEST}"
-        git push -u origin "$branch" --force-with-lease
+        git push -u origin "$branch" --force
 
         title="chore(helm): bump ${CHART} to ${LATEST}"
         body=$(cat <<EOF

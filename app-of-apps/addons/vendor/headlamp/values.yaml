@@ -12,3 +12,4 @@ httpRoute:
     gethomepage.dev/description: User-friendly Kubernetes UI.
     gethomepage.dev/group: IoT
     gethomepage.dev/name: Headlamp
+    gethomepage.dev/pod-selector: app.kubernetes.io/name=headlamp

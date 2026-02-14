@@ -60,6 +60,9 @@ runs:
           exit 1
         fi
 
+        # Normalize: strip 'v' prefix if present to match targetRevision format
+        latest="${latest#v}"
+
         echo "latest=$latest" >> "$GITHUB_OUTPUT"
         echo "LATEST=$latest"
 

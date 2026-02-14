@@ -7,6 +7,7 @@ metadata:
   name: argocd-cm
 data:
   kustomize.buildOptions: "--enable-helm"
+  application.resourceTrackingMethod: annotation
   resource.customizations.ignoreDifferences.apps_Deployment: |
     jqPathExpressions:
       - '.spec.template.spec.containers[]?.env'
@@ -14,10 +15,14 @@ data:
     jqPathExpressions:
       - '.spec.volumeClaimTemplates[]?.apiVersion'
       - '.spec.volumeClaimTemplates[]?.kind'
+  resource.customizations.ignoreDifferences.gateway.networking.k8s.io_HTTPRoute: |
+    jqPathExpressions:
+      - '.spec.rules[]?.backendRefs[]?.group'
+      - '.spec.rules[]?.backendRefs[]?.kind'
+      - '.spec.rules[]?.backendRefs[]?.weight'
   resource.customizations.ignoreDifferences.admissionregistration.k8s.io_ValidatingWebhookConfiguration: |
     jqPathExpressions:
       - '.webhooks[]?.failurePolicy'
   resource.customizations.ignoreDifferences.apiextensions.k8s.io_CustomResourceDefinition: |
     jqPathExpressions:
       - '.spec.preserveUnknownFields'
-  application.resourceTrackingMethod: annotation

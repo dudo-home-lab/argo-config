@@ -63,6 +63,7 @@ jobs:
     needs: discover
     if: ${{ fromJson(needs.discover.outputs.matrix).include[0] != null }}
     runs-on: ubuntu-latest
+    name: bump (${{ matrix.name }})
     strategy:
       fail-fast: false
       matrix: ${{ fromJson(needs.discover.outputs.matrix) }}

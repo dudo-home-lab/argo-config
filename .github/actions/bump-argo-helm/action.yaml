@@ -35,8 +35,8 @@ runs:
         echo "CURRENT=$CURRENT"
 
         if [[ "$REPO" == oci://* ]]; then
-          # OCI: tags live in the registry at <registry/path>/<chart>
-          OCI_REPO="${REPO#oci://}/${CHART}"
+          # OCI: repo URL already includes the full path to the chart
+          OCI_REPO="${REPO#oci://}"
 
           # List tags, filter semver-ish, sort, pick latest
           # (Adjust grep if you use tags like v1.2.3)

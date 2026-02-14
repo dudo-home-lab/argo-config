@@ -21,18 +21,13 @@ runs:
     - name: Resolve latest chart version
       id: latest
       shell: bash
+      env:
+        FILE: ${{ inputs.file }}
+        CHART: ${{ inputs.chart }}
+        REPO: ${{ inputs.repoURL }}
+        CURRENT: ${{ inputs.current }}
       run: |
         set -euo pipefail
-
-        FILE='${{ inputs.file }}'
-        CHART='${{ inputs.chart }}'
-        REPO='${{ inputs.repoURL }}'
-        CURRENT='${{ inputs.current }}'
-
-        echo "FILE=$FILE"
-        echo "CHART=$CHART"
-        echo "REPO=$REPO"
-        echo "CURRENT=$CURRENT"
 
         if [[ "$REPO" == oci://* ]]; then
           # OCI: repo URL already includes the full path to the chart
@@ -68,22 +63,24 @@ runs:
     - name: Skip if up-to-date
       if: ${{ steps.latest.outputs.latest == inputs.current }}
       shell: bash
+      env:
+        CHART: ${{ inputs.chart }}
+        CURRENT: ${{ inputs.current }}
       run: |
-        echo "Up-to-date: ${{ inputs.chart }} (${{ inputs.current }})"
+        echo "Up-to-date: $CHART ($CURRENT)"
 
     - name: Update file + open/update PR
       if: ${{ steps.latest.outputs.latest != inputs.current }}
       shell: bash
       env:
         GH_TOKEN: ${{ github.token }}
+        FILE: ${{ inputs.file }}
+        CHART: ${{ inputs.chart }}
+        REPO: ${{ inputs.repoURL }}
+        CURRENT: ${{ inputs.current }}
+        LATEST: ${{ steps.latest.outputs.latest }}
       run: |
         set -euo pipefail
-
-        FILE='${{ inputs.file }}'
-        CHART='${{ inputs.chart }}'
-        REPO='${{ inputs.repoURL }}'
-        CURRENT='${{ inputs.current }}'
-        LATEST='${{ steps.latest.outputs.latest }}'
 
         # Base branch is the default branch of the repo
         base="$(git remote show origin | awk '/HEAD branch/ {print $NF}')"

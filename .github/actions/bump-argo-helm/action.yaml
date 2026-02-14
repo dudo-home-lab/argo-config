@@ -95,7 +95,7 @@ runs:
         git checkout -B "$branch" "origin/$base"
 
         # Find the specific source entry matching this chart name
-        idx="$(yq -r --arg chart "$CHART" '(.spec.template.spec.sources | to_entries | map(select(.value.chart == $chart)) | .[0].key) // ""' "$FILE")"
+        idx="$(CHART="$CHART" yq '.spec.template.spec.sources | to_entries | map(select(.value.chart == strenv(CHART))) | .[0].key' "$FILE")"
         if [[ -z "$idx" || "$idx" == "null" ]]; then
           echo "ERROR: could not locate source with chart=$CHART in $FILE" >&2
           exit 1

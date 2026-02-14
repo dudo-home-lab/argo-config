@@ -5,7 +5,7 @@
   ],
   "enabledManagers": ["argocd"],
   "argocd": {
-    "fileMatch": ["^app-of-apps\\/addons\\/.+\\/.+\\.ya?ml$"]
+    "managerFilePatterns": ["/^app-of-apps\\/addons\\/.+\\/.+\\.ya?ml$/"]
   },
 
   "dependencyDashboard": true,
@@ -18,8 +18,7 @@
     {
       "matchManagers": ["argocd"],
       "matchDatasources": ["helm"],
-      "groupName": "Cluster addon updates (grouped by repo)",
-      "groupByDatasource": true
+      "groupName": "Cluster addon updates (grouped by repo)"
     },
     {
       "matchManagers": ["argocd"],

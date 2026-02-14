@@ -2,3 +2,8 @@
 ---
 httpRoute:
   enabled: true
+  parentRefs:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: external-http-gateway
+      namespace: istio-ingress

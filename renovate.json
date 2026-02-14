@@ -3,27 +3,38 @@
     "config:best-practices",
     "schedule:weekly"
   ],
-  "enabledManagers": ["argocd"],
+  "enabledManagers": [
+    "argocd"
+  ],
   "argocd": {
-    "fileMatch": ["^app-of-apps/addons/.+/.+\\.ya?ml$"]
+    "managerFilePatterns": [
+      "/^app-of-apps/addons/.+/.+\\.ya?ml$/"
+    ]
   },
-
   "dependencyDashboard": true,
   "dependencyDashboardTitle": "Renovate Dashboard (Cluster Addons)",
-
   "prConcurrentLimit": 3,
   "prHourlyLimit": 1,
-
   "packageRules": [
     {
-      "matchManagers": ["argocd"],
-      "matchDatasources": ["helm"],
+      "matchManagers": [
+        "argocd"
+      ],
+      "matchDatasources": [
+        "helm"
+      ],
       "groupName": "Cluster addon updates (grouped by repo)"
     },
     {
-      "matchManagers": ["argocd"],
-      "matchDatasources": ["helm"],
-      "matchUpdateTypes": ["patch"],
+      "matchManagers": [
+        "argocd"
+      ],
+      "matchDatasources": [
+        "helm"
+      ],
+      "matchUpdateTypes": [
+        "patch"
+      ],
       "automerge": true,
       "automergeType": "pr",
       "ignoreTests": false

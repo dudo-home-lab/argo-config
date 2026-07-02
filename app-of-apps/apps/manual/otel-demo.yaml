@@ -1,0 +1,52 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: apps-otel-demo
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+    - clusters:
+        selector:
+          matchExpressions:
+            - key: kubernetes.io/environment
+              operator: In
+              values:
+                - sandbox
+  template:
+    metadata:
+      name: 'apps-otel-demo-{{ .name }}'
+      labels:
+        argocd.argoproj.io/type: helm
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io
+    spec:
+      project: addons
+      sources:
+        - chart: opentelemetry-demo
+          targetRevision: 0.40.9
+          repoURL: https://open-telemetry.github.io/opentelemetry-helm-charts
+          helm:
+            ignoreMissingValueFiles: true
+            valueFiles:
+              - '$values/app-of-apps/addons/vendor/otel/demo/values.yaml'
+              - '$values/app-of-apps/addons/vendor/otel/demo/{{ index .metadata.labels "kubernetes.io/environment" }}.values.yaml'
+            valuesObject: {}
+        - repoURL: https://github.com/dudo-home-lab/argo-config
+          targetRevision: HEAD
+          ref: values
+      destination:
+        name: '{{ .name }}'
+        namespace: opentelemetry-demo
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        managedNamespaceMetadata:
+          labels: {}
+          annotations: {}
+        syncOptions:
+          - CreateNamespace=true
+          - ServerSideApply=true

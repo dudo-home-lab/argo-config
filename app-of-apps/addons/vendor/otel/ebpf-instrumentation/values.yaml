@@ -1,0 +1,5 @@
+---
+k8sCache:
+  replicas: 1
+podAnnotations: {}
+podLabels: {}

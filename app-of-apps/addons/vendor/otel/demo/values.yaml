@@ -1,0 +1,24 @@
+# https://github.com/open-telemetry/opentelemetry-helm-charts/blob/main/charts/opentelemetry-demo/values.yaml
+---
+components:
+  load-generator:
+    enabled: false
+  kafka:
+    enabled: false
+  llm:
+    enabled: false
+  postgresql:
+    enabled: false
+  valkey-cart:
+    enabled: false
+
+opentelemetry-collector:
+  enabled: false
+jaeger:
+  enabled: false
+prometheus:
+  enabled: false
+grafana:
+  enabled: false
+opensearch:
+  enabled: false

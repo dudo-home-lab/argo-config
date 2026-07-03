@@ -44,6 +44,11 @@ components:
             name: otel-demo-db
             key: reviews-dsn
   product-catalog:
+    resources:
+      limits:
+        memory: 120Mi
+      requests:
+        memory: 120Mi
     envOverrides:
       - name: DB_CONNECTION_STRING
         valueFrom:

@@ -31,9 +31,12 @@ spec:
           helm:
             ignoreMissingValueFiles: true
             valueFiles:
-              - '$values/app-of-apps/addons/vendor/otel/demo/values.yaml'
-              - '$values/app-of-apps/addons/vendor/otel/demo/{{ index .metadata.labels "kubernetes.io/environment" }}.values.yaml'
+              - '$values/app-of-apps/apps/manual/otel/demo/values.yaml'
+              - '$values/app-of-apps/apps/manual/otel/demo/{{ index .metadata.labels "kubernetes.io/environment" }}.values.yaml'
             valuesObject: {}
+        - repoURL: https://github.com/dudo-home-lab/argo-config
+          targetRevision: HEAD
+          path: 'app-of-apps/apps/manual/otel/demo/overlays/{{ index .metadata.labels "kubernetes.io/environment" }}'
         - repoURL: https://github.com/dudo-home-lab/argo-config
           targetRevision: HEAD
           ref: values

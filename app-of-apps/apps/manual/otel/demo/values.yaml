@@ -52,6 +52,8 @@ components:
     envOverrides:
       - name: GOMEMLIMIT
         value: 100MiB
+      - name: OTEL_LOGS_EXPORTER
+        value: console
       - name: DB_CONNECTION_STRING
         valueFrom:
           secretKeyRef:

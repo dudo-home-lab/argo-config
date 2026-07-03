@@ -19,8 +19,8 @@ spec:
     spec:
       project: addons
       sources:
-        - chart: redpanda
-          targetRevision: 26.1.7
+        - chart: operator
+          targetRevision: v26.1.7
           repoURL: https://charts.redpanda.com
           helm:
             ignoreMissingValueFiles: true

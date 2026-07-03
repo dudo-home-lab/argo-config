@@ -54,6 +54,8 @@ components:
         value: 100MiB
       - name: OTEL_LOGS_EXPORTER
         value: console
+      - name: OTEL_SDK_DISABLED
+        value: "true"
       - name: DB_CONNECTION_STRING
         valueFrom:
           secretKeyRef:

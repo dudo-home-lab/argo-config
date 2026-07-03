@@ -15,6 +15,11 @@ components:
     envOverrides:
       - name: KAFKA_ADDR
         value: otel-demo.redpanda.svc.cluster.local:9093
+      - name: DB_CONNECTION_STRING
+        valueFrom:
+          secretKeyRef:
+            name: otel-demo-db
+            key: accounting-dsn
     initContainers: []
   checkout:
     envOverrides:
@@ -31,6 +36,20 @@ components:
       - name: VALKEY_ADDR
         value: valkey-otel-demo.valkey-operator-system.svc.cluster.local:6379
     initContainers: []
+  product-reviews:
+    envOverrides:
+      - name: DB_CONNECTION_STRING
+        valueFrom:
+          secretKeyRef:
+            name: otel-demo-db
+            key: reviews-dsn
+  product-catalog:
+    envOverrides:
+      - name: DB_CONNECTION_STRING
+        valueFrom:
+          secretKeyRef:
+            name: otel-demo-db
+            key: catalog-dsn
 
 opentelemetry-collector:
   enabled: false

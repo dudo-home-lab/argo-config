@@ -28,7 +28,7 @@ spec:
               - '$values/app-of-apps/addons/vendor/otel/operator/values.yaml'
               - '$values/app-of-apps/addons/vendor/otel/operator/{{ index .metadata.labels "kubernetes.io/environment" }}.values.yaml'
             valuesObject: {}
-        - chart: ebpf-instrumentation
+        - chart: opentelemetry-ebpf-instrumentation
           targetRevision: 0.10.0
           repoURL: https://open-telemetry.github.io/opentelemetry-helm-charts
           helm:

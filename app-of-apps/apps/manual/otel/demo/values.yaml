@@ -50,6 +50,8 @@ components:
       requests:
         memory: 120Mi
     envOverrides:
+      - name: GOMEMLIMIT
+        value: 100MiB
       - name: DB_CONNECTION_STRING
         valueFrom:
           secretKeyRef:

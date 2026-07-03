@@ -8,6 +8,7 @@ metadata:
     gethomepage.dev/description: OpenTelemetry demo application.
     gethomepage.dev/group: Apps
     gethomepage.dev/name: Astronomy Shop
+    gethomepage.dev/pod-selector: app.kubernetes.io/name=frontend-proxy
 spec:
   parentRefs:
     - group: gateway.networking.k8s.io

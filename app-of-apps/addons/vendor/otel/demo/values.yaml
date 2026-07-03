@@ -29,7 +29,7 @@ components:
   cart:
     envOverrides:
       - name: VALKEY_ADDR
-        value: valkey-addon-chart-in-cluster-hub.valkey.svc.cluster.local:6379
+        value: valkey-otel-demo.valkey-operator-system.svc.cluster.local:6379
     initContainers: []
 
 opentelemetry-collector:

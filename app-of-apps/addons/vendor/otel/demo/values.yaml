@@ -14,17 +14,17 @@ components:
   accounting:
     envOverrides:
       - name: KAFKA_ADDR
-        value: redpanda-addon-chart-in-cluster-hub.redpanda.svc.cluster.local:9093
+        value: otel-demo.redpanda.svc.cluster.local:9093
     initContainers: []
   checkout:
     envOverrides:
       - name: KAFKA_ADDR
-        value: redpanda-addon-chart-in-cluster-hub.redpanda.svc.cluster.local:9093
+        value: otel-demo.redpanda.svc.cluster.local:9093
     initContainers: []
   fraud-detection:
     envOverrides:
       - name: KAFKA_ADDR
-        value: redpanda-addon-chart-in-cluster-hub.redpanda.svc.cluster.local:9093
+        value: otel-demo.redpanda.svc.cluster.local:9093
     initContainers: []
   cart:
     envOverrides:

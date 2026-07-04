@@ -25,17 +25,8 @@ spec:
           helm:
             ignoreMissingValueFiles: true
             valueFiles:
-              - '$values/app-of-apps/addons/vendor/neo4j/neo4j/values.yaml'
-              - '$values/app-of-apps/addons/vendor/neo4j/neo4j/{{ index .metadata.labels "kubernetes.io/environment" }}.values.yaml'
-        # - chart: neo4j-admin
-        #   targetRevision: 2026.05.0
-        #   repoURL: https://helm.neo4j.com/neo4j
-        #   helm:
-        #     ignoreMissingValueFiles: true
-        #     valueFiles:
-        #       - '$values/app-of-apps/addons/vendor/neo4j/neo4j-admin/values.yaml'
-        #       - '$values/app-of-apps/addons/vendor/neo4j/neo4j-admin/{{ index .metadata.labels "kubernetes.io/environment" }}.values.yaml'
-        #     valuesObject: {}
+              - '$values/app-of-apps/addons/vendor/neo4j/values.yaml'
+              - '$values/app-of-apps/addons/vendor/neo4j/{{ index .metadata.labels "kubernetes.io/environment" }}.values.yaml'
         - repoURL: https://github.com/dudo-home-lab/argo-config
           targetRevision: HEAD
           ref: values

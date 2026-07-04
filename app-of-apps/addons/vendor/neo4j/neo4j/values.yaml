@@ -6,9 +6,17 @@ neo4j:
   resources:
     cpu: 1
     memory: 4Gi
+  config:
+    server.http.enabled: "true"
+    dbms.usage_report.enabled: "false"
+    dbms.security.allow_proxies: "istio-ingress"
+    dbms.security.allow_hosts: "neo4j.dudo.dev"
 volumes:
   data:
     mode: defaultStorageClass
     defaultStorageClass:
       requests:
         storage: 2Gi
+services:
+  neo4j:
+    enabled: false

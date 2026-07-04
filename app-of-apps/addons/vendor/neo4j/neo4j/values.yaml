@@ -3,6 +3,7 @@
 neo4j:
   edition: community
   name: orbservability
+  passwordFromSecret: neo4j-credentials
   resources:
     cpu: 1
     memory: 4Gi

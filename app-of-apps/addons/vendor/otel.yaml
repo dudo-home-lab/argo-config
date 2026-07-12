@@ -28,19 +28,19 @@ spec:
               - '$values/app-of-apps/addons/vendor/otel/operator/values.yaml'
               - '$values/app-of-apps/addons/vendor/otel/operator/{{ index .metadata.labels "kubernetes.io/environment" }}.values.yaml'
             valuesObject: {}
-        - chart: opentelemetry-ebpf-instrumentation
-          targetRevision: 0.10.0
-          repoURL: https://open-telemetry.github.io/opentelemetry-helm-charts
-          helm:
-            ignoreMissingValueFiles: true
-            valueFiles:
-              - '$values/app-of-apps/addons/vendor/otel/ebpf-instrumentation/values.yaml'
-              - '$values/app-of-apps/addons/vendor/otel/ebpf-instrumentation/{{ index .metadata.labels "kubernetes.io/environment" }}.values.yaml'
-            valuesObject:
-              config:
-                create: true
-                data:
-                  cluster_name: '{{ .name }}'
+        # - chart: opentelemetry-ebpf-instrumentation
+        #   targetRevision: 0.10.0
+        #   repoURL: https://open-telemetry.github.io/opentelemetry-helm-charts
+        #   helm:
+        #     ignoreMissingValueFiles: true
+        #     valueFiles:
+        #       - '$values/app-of-apps/addons/vendor/otel/ebpf-instrumentation/values.yaml'
+        #       - '$values/app-of-apps/addons/vendor/otel/ebpf-instrumentation/{{ index .metadata.labels "kubernetes.io/environment" }}.values.yaml'
+        #     valuesObject:
+        #       config:
+        #         create: true
+        #         data:
+        #           cluster_name: '{{ .name }}'
         - repoURL: https://github.com/dudo-home-lab/argo-config
           targetRevision: HEAD
           ref: values

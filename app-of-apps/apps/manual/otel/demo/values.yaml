@@ -1,5 +1,10 @@
 # https://github.com/open-telemetry/opentelemetry-helm-charts/blob/main/charts/opentelemetry-demo/values.yaml
 ---
+default:
+  envOverrides:
+    - name: OTEL_COLLECTOR_NAME
+      value: otel-collector.otel.svc.cluster.local
+
 components:
   load-generator:
     enabled: false

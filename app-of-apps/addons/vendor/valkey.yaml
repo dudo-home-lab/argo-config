@@ -20,7 +20,7 @@ spec:
       project: addons
       sources:
         - chart: valkey-operator
-          targetRevision: 0.3.0
+          targetRevision: 0.4.0
           repoURL: https://valkey.io/valkey-helm/
           helm:
             ignoreMissingValueFiles: true

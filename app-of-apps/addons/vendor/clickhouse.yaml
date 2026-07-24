@@ -20,7 +20,7 @@ spec:
       project: addons
       sources:
         - chart: clickhouse
-          targetRevision: 0.0.7-10.d9ad252
+          targetRevision: 0.0.8-5.7ada05d
           repoURL: oci://ghcr.io/clickhouse/clickhouse-operator-helm
           helm:
             ignoreMissingValueFiles: true

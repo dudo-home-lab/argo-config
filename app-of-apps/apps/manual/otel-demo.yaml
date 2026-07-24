@@ -26,7 +26,7 @@ spec:
       project: addons
       sources:
         - chart: opentelemetry-demo
-          targetRevision: 0.40.9
+          targetRevision: 0.40.10
           repoURL: https://open-telemetry.github.io/opentelemetry-helm-charts
           helm:
             ignoreMissingValueFiles: true
